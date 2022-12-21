@@ -1,0 +1,116 @@
+{
+  "name": "djangohelperext",
+  "displayName": "djangohelperext",
+  "description": "django helper to create serializer and viewsets",
+  "publisher": "msayman786",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:djangohelperext.copyModelName",
+    "onCommand:djangohelperext.pasteModelSerializer",
+    "onCommand:djangohelperext.pasteModelSerializerECU",
+    "onCommand:djangohelperext.pasteModelSerializerAll",
+    "onCommand:djangohelperext.pasteModelViewset",
+    "onCommand:djangohelperext.pasteModelSimpleRouter",
+    "onCommand:djangohelperext.pasteModelSimpleRouterReg"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "djangohelperext.copyModelName",
+        "title": "copy model name"
+      },
+      {
+        "command": "djangohelperext.pasteModelSerializerECU",
+        "title": "paste serializer exclude created_at,updated_at"
+      },
+      {
+        "command": "djangohelperext.pasteModelSerializerAll",
+        "title": "paste serialaizer fields all"
+      },
+      {
+        "command": "djangohelperext.pasteModelSerializer",
+        "title": "paste serialaizer fields "
+      },
+      {
+        "command": "djangohelperext.pasteModelViewset",
+        "title": "paste model viewset"
+      },
+      {
+        "command": "djangohelperext.pasteModelSimpleRouter",
+        "title": "paste simple router"
+      },
+      {
+        "command": "djangohelperext.pasteModelSimpleRouterReg",
+        "title": "paste simple router register only"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "djangohelperext.copyModelName",
+          "group": "9_cutcopypaste"
+        },
+     {
+        "submenu": "extnext",
+        "group": "9_cutcopypaste"
+      }
+      ],
+      "extnext": [
+        {
+          "command": "djangohelperext.pasteModelSerializerECU",
+          "group": "navigation"
+        },
+        {
+          "command": "djangohelperext.pasteModelSerializerAll",
+          "group": "navigation"
+        },
+        {
+          "command": "djangohelperext.pasteModelSerializer",
+          "group": "navigation"
+        },
+        {
+          "command": "djangohelperext.pasteModelSimpleRouterReg",
+          "group": "navigation"
+        },
+        {
+          "command": "djangohelperext.pasteModelViewset",
+          "group": "navigation"
+        },
+        {
+          "command": "djangohelperext.pasteModelSimpleRouter",
+          "group": "navigation"
+        }
+      ]
+  },
+  "submenus": [
+    {
+      "id": "extnext",
+      "label": "djangohelper",
+      "icon": "hello"
+    }
+  ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "node ./test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "eslint": "^8.28.0",
+    "glob": "^8.0.3",
+    "mocha": "^10.1.0",
+    "typescript": "^4.9.3",
+    "@vscode/test-electron": "^2.2.0"
+  }
+}
