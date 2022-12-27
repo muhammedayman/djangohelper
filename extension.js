@@ -95,7 +95,11 @@ function getCommands() {
             lastline=i
             break;
           }
-          fields.push(lines[i].split("=")[0].replace(/\s/g, ''));
+          const match4 = (lines[i].match(/= models/) || lines[i].match(/=models/));
+          if (match4) {
+            fields.push(lines[i].split("=")[0].replace(/\s/g, ''));
+          }
+         
         }
         
       }
