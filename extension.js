@@ -1,6 +1,6 @@
 const vscode = require("vscode");
 
-function parseModelString(str, type_command) {
+function parseModelString(str, type_command,fields={}) {
   let block = "";
   if (type_command == "secu") {
     block =
@@ -19,12 +19,17 @@ function parseModelString(str, type_command) {
       "\n\t\tfields='__all__'";
   }
   if (type_command == "sf") {
+    let field=''
+    for (let i = 0; i < fields.fields.length; i++) {
+      field=field+"'"+fields.fields[i]+"'," 
+    }
+
     block =
       "class " +
       str +
       "Serilizers(serializers.ModelSerializer):\n\tclass Meta:\n\t\tmodel=" +
       str +
-      "\n\t\tfields=('')";
+      "\n\t\tfields=("+field+")";
   }
   if (type_command == "vs") {
     block =
@@ -62,19 +67,47 @@ function parseModelString(str, type_command) {
 }
 
 function getCommands() {
-
   let clipboard;
+  let fields = [];
   return {
     copy: function () {
       const editor = vscode.window.activeTextEditor;
       const selection = editor.selection;
+      const startline = editor.selection.start;
+      let lines = editor.document.getText().split("\n");
+      let lastline;
+      
+      for (let i = 0; i < lines.length; i++) {
+
+        if (startline.c<i){
+          const match = lines[i].match(/^\S/);
+          if (match) {
+            lastline=i
+            break;
+          }
+          const match2 = lines[i].match(/class Meta/);
+          if (match2) {
+            lastline=i
+            break;
+          }
+          fields.push(lines[i].split("=")[0].replace(/\s/g, ''));
+        }
+        
+      }
+
       clipboard = editor.document.getText(selection);
-      console.log(clipboard)
+      const range = editor.document.getWordRangeAtPosition(
+        vscode.window.activeTextEditor.selection.active,
+        /\S+/
+      );
+      const word = editor.document.getText(range);
+      // const text=vscode.Selection(range.start, range.end);
+      console.log(clipboard);
     },
     pastesf: function () {
       const editor = vscode.window.activeTextEditor;
       const pos = editor.selection.active;
-      const arr = parseModelString(clipboard, "sf");
+      const arr = parseModelString(clipboard, "sf",{"fields":fields});
 
       if (arr != null) {
         editor.edit((edit) => {
@@ -153,7 +186,8 @@ function getCommands() {
 }
 
 function activate(context) {
-  const { copy, pastesf, pastecu, pastall, pastevs, pasters,pasterr } = getCommands();
+  const { copy, pastesf, pastecu, pastall, pastevs, pasters, pasterr } =
+    getCommands();
 
   const copyModelName = vscode.commands.registerCommand(
     "djangohelperext.copyModelName",
