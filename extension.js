@@ -90,6 +90,11 @@ function getCommands() {
             lastline=i
             break;
           }
+          const match3 = lines[i].match(/def /);
+          if (match3) {
+            lastline=i
+            break;
+          }
           fields.push(lines[i].split("=")[0].replace(/\s/g, ''));
         }
         
