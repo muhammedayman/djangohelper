@@ -76,7 +76,7 @@ function getCommands() {
       const startline = editor.selection.start;
       let lines = editor.document.getText().split("\n");
       let lastline;
-      
+      fields = [];
       for (let i = 0; i < lines.length; i++) {
 
         if (startline.c<i){
