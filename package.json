@@ -3,7 +3,7 @@
   "displayName": "djangohelperext",
   "description": "django helper to create serializer and viewsets",
   "publisher": "msayman786",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -12,7 +12,7 @@
     "url": "https://github.com/muhammedayman/djangohelper"
   },
   "categories": [
-    "Other"
+    "django"
   ],
   "activationEvents": [
     "onCommand:djangohelperext.copyModelName",
@@ -53,6 +53,10 @@
       {
         "command": "djangohelperext.pasteModelSimpleRouterReg",
         "title": "paste simple router register only"
+      },
+      {
+        "command": "djangohelperext.pasteModelAllfields",
+        "title": "paste all fields"
       }
     ],
     "menus": {
@@ -68,6 +72,27 @@
       ],
       "extnext": [
         {
+          "when": "explorerViewletVisible",
+          "submenu": "extnextnext",
+          "group": "navigation"
+        },
+        {
+          "when": "explorerViewletVisible",
+          "submenu": "extnextnextrouter",
+          "group": "navigation"
+        },
+        {
+          "when": "explorerViewletVisible",
+          "submenu": "extnextnextviews",
+          "group": "navigation"
+        },
+        {
+          "command": "djangohelperext.pasteModelAllfields",
+          "group": "navigation"
+        }
+      ],
+      "extnextnext":[
+        {
           "command": "djangohelperext.pasteModelSerializerECU",
           "group": "navigation"
         },
@@ -78,17 +103,21 @@
         {
           "command": "djangohelperext.pasteModelSerializer",
           "group": "navigation"
-        },
+        }
+      ],
+      "extnextnextrouter":[
         {
           "command": "djangohelperext.pasteModelSimpleRouterReg",
           "group": "navigation"
         },
         {
-          "command": "djangohelperext.pasteModelViewset",
-          "group": "navigation"
-        },
-        {
           "command": "djangohelperext.pasteModelSimpleRouter",
+          "group": "navigation"
+        }
+      ],
+      "extnextnextviews":[
+        {
+          "command": "djangohelperext.pasteModelViewset",
           "group": "navigation"
         }
       ]
@@ -97,6 +126,21 @@
     {
       "id": "extnext",
       "label": "djangohelper",
+      "icon": "hello"
+    },
+    {
+      "id": "extnextnext",
+      "label": "serializer",
+      "icon": "hello"
+    },
+    {
+      "id": "extnextnextrouter",
+      "label": "url router",
+      "icon": "hello"
+    },
+    {
+      "id": "extnextnextviews",
+      "label": "views",
       "icon": "hello"
     }
   ]

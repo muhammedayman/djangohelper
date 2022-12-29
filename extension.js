@@ -18,6 +18,14 @@ function parseModelString(str, type_command,fields={}) {
       str +
       "\n\t\tfields='__all__'";
   }
+  if (type_command == "fields") {
+    let field=''
+    for (let i = 0; i < fields.fields.length; i++) {
+      field=field+"'"+fields.fields[i]+"'," 
+    }
+
+    block ="("+field+")";
+  }
   if (type_command == "sf") {
     let field=''
     for (let i = 0; i < fields.fields.length; i++) {
@@ -55,7 +63,7 @@ function parseModelString(str, type_command,fields={}) {
   }
   if (type_command == "rr") {
     block =
-      "router = routers.SimpleRouter()\nrouter.register(r'" +
+      "router.register(r'" +
       str.toLowerCase() +
       "', " +
       str +
@@ -117,6 +125,19 @@ function getCommands() {
       const editor = vscode.window.activeTextEditor;
       const pos = editor.selection.active;
       const arr = parseModelString(clipboard, "sf",{"fields":fields});
+
+      if (arr != null) {
+        editor.edit((edit) => {
+          edit.insert(pos, `${arr}`);
+        });
+      } else {
+        vscode.window.showInformationMessage("No code to paste");
+      }
+    },
+    pastefields: function () {
+      const editor = vscode.window.activeTextEditor;
+      const pos = editor.selection.active;
+      const arr = parseModelString(clipboard, "fields",{"fields":fields});
 
       if (arr != null) {
         editor.edit((edit) => {
@@ -195,7 +216,7 @@ function getCommands() {
 }
 
 function activate(context) {
-  const { copy, pastesf, pastecu, pastall, pastevs, pasters, pasterr } =
+  const { copy, pastesf, pastecu, pastall, pastevs, pasters, pasterr, pastefields } =
     getCommands();
 
   const copyModelName = vscode.commands.registerCommand(
@@ -227,6 +248,10 @@ function activate(context) {
     "djangohelperext.pasteModelSimpleRouterReg",
     pasterr
   );
+  const pasteModelAllfields = vscode.commands.registerCommand(
+    "djangohelperext.pasteModelAllfields",
+    pastefields
+  );
 
   context.subscriptions.push(copyModelName);
   context.subscriptions.push(pasteModelSerializer);
@@ -235,6 +260,7 @@ function activate(context) {
   context.subscriptions.push(pasteModelViewset);
   context.subscriptions.push(pasteModelSimpleRouter);
   context.subscriptions.push(pasteModelSimpleRouterReg);
+  context.subscriptions.push(pasteModelAllfields);
 }
 exports.activate = activate;
 exports.parseModelString = parseModelString;
