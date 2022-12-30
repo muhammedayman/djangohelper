@@ -92,7 +92,31 @@
         },
         {
           "command": "djangohelperext.pasteModelAllfields",
-          "group": "9_cutcopypaste"
+          "group": "aymen"
+        },
+        {
+          "command": "djangohelperext.pasteModelSerializerECU",
+          "group": "serializer"
+        },
+        {
+          "command": "djangohelperext.pasteModelSerializerAll",
+          "group": "serializer"
+        },
+        {
+          "command": "djangohelperext.pasteModelSerializer",
+          "group": "serializer"
+        },
+        {
+          "command": "djangohelperext.pasteModelSimpleRouterReg",
+          "group": "router"
+        },
+        {
+          "command": "djangohelperext.pasteModelSimpleRouter",
+          "group": "router"
+        },
+        {
+          "command": "djangohelperext.pasteModelViewset",
+          "group": "navigation"
         }
       ],
       "extnextnext":[
