@@ -72,6 +72,10 @@
       ],
       "extnext": [
         {
+          "command": "djangohelperext.copyModelName",
+          "group": "9_cutcopypaste"
+        },
+        {
           "when": "explorerViewletVisible",
           "submenu": "extnextnext",
           "group": "navigation"
