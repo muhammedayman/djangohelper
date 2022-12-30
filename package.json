@@ -3,7 +3,7 @@
   "displayName": "djangohelperext",
   "description": "django helper to create serializer and viewsets",
   "publisher": "msayman786",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "engines": {
     "vscode": "^1.74.0"
   },
@@ -78,21 +78,21 @@
         {
           "when": "explorerViewletVisible",
           "submenu": "extnextnext",
-          "group": "navigation"
+          "group": "9_cutcopypaste"
         },
         {
           "when": "explorerViewletVisible",
           "submenu": "extnextnextrouter",
-          "group": "navigation"
+          "group": "9_cutcopypaste"
         },
         {
           "when": "explorerViewletVisible",
           "submenu": "extnextnextviews",
-          "group": "navigation"
+          "group": "9_cutcopypaste"
         },
         {
           "command": "djangohelperext.pasteModelAllfields",
-          "group": "navigation"
+          "group": "9_cutcopypaste"
         }
       ],
       "extnextnext":[
