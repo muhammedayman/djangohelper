@@ -129,23 +129,19 @@
   "submenus": [
     {
       "id": "extnext",
-      "label": "djangohelper",
-      "icon": "hello"
+      "label": "djangohelper"
     },
     {
       "id": "extnextnext",
-      "label": "serializer",
-      "icon": "hello"
+      "label": "serializer"
     },
     {
       "id": "extnextnextrouter",
-      "label": "url router",
-      "icon": "hello"
+      "label": "url router"
     },
     {
       "id": "extnextnextviews",
-      "label": "views",
-      "icon": "hello"
+      "label": "views"
     }
   ]
   },
