@@ -26,6 +26,22 @@ function parseModelString(str, type_command,fields={}) {
 
     block ="("+field+")";
   }
+  if (type_command == "fieldslines") {
+    let field=''
+    for (let i = 0; i < fields.fields.length; i++) {
+      field=field+"\n"+fields.fields[i] 
+    }
+
+    block =field;
+  }
+  if (type_command == "fieldslinesdict") {
+    let field=''
+    for (let i = 0; i < fields.fields.length; i++) {
+      field=field+'\n"'+fields.fields[i]+'"'+':"",' 
+    }
+    field=field.substring(0, field.length - 1)
+    block ="{"+field+"}"
+  }
   if (type_command == "sf") {
     let field=''
     for (let i = 0; i < fields.fields.length; i++) {
@@ -121,6 +137,36 @@ function getCommands() {
       // const text=vscode.Selection(range.start, range.end);
       console.log(clipboard);
     },
+    copyfields: function () {
+      const editor = vscode.window.activeTextEditor;
+      const selection = editor.selection;
+      const startline = editor.selection.start;
+      const endline = editor.selection.end;
+      let lines = editor.document.getText().split("\n");
+      let lastline;
+      fields = [];
+      for (let i = 0; i < lines.length; i++) {
+
+        if (startline.c<i && (endline.c+1)>i){
+          
+          const match4 = (lines[i].match(/= models/) || lines[i].match(/=models/));
+          if (match4) {
+            fields.push(lines[i].split("=")[0].replace(/\s/g, ''));
+          }
+         
+        }
+        
+      }
+
+      clipboard = editor.document.getText(selection);
+      const range = editor.document.getWordRangeAtPosition(
+        vscode.window.activeTextEditor.selection.active,
+        /\S+/
+      );
+      const word = editor.document.getText(range);
+      // const text=vscode.Selection(range.start, range.end);
+      console.log(clipboard);
+    },
     pastesf: function () {
       const editor = vscode.window.activeTextEditor;
       const pos = editor.selection.active;
@@ -138,6 +184,32 @@ function getCommands() {
       const editor = vscode.window.activeTextEditor;
       const pos = editor.selection.active;
       const arr = parseModelString(clipboard, "fields",{"fields":fields});
+
+      if (arr != null) {
+        editor.edit((edit) => {
+          edit.insert(pos, `${arr}`);
+        });
+      } else {
+        vscode.window.showInformationMessage("No code to paste");
+      }
+    },
+    pastefieldsenter: function () {
+      const editor = vscode.window.activeTextEditor;
+      const pos = editor.selection.active;
+      const arr = parseModelString(clipboard, "fieldslines",{"fields":fields});
+
+      if (arr != null) {
+        editor.edit((edit) => {
+          edit.insert(pos, `${arr}`);
+        });
+      } else {
+        vscode.window.showInformationMessage("No code to paste");
+      }
+    },
+    pastefieldsdict: function () {
+      const editor = vscode.window.activeTextEditor;
+      const pos = editor.selection.active;
+      const arr = parseModelString(clipboard, "fieldslinesdict",{"fields":fields});
 
       if (arr != null) {
         editor.edit((edit) => {
@@ -216,12 +288,16 @@ function getCommands() {
 }
 
 function activate(context) {
-  const { copy, pastesf, pastecu, pastall, pastevs, pasters, pasterr, pastefields } =
+  const { copy,copyfields, pastesf, pastecu, pastall, pastevs, pasters, pasterr, pastefields, pastefieldsenter,pastefieldsdict} =
     getCommands();
 
   const copyModelName = vscode.commands.registerCommand(
     "djangohelperext.copyModelName",
     copy
+  );
+  const copyModelfields = vscode.commands.registerCommand(
+    "djangohelperext.copyModelfields",
+    copyfields
   );
 
   const pasteModelSerializer = vscode.commands.registerCommand(
@@ -252,8 +328,17 @@ function activate(context) {
     "djangohelperext.pasteModelAllfields",
     pastefields
   );
+  const pasteModelselectedfields = vscode.commands.registerCommand(
+    "djangohelperext.pasteModelselectedfields",
+    pastefieldsenter
+  );
+  const pasteModelselectedfieldsdict = vscode.commands.registerCommand(
+    "djangohelperext.pasteModelselectedfieldsdict",
+    pastefieldsdict
+  );
 
   context.subscriptions.push(copyModelName);
+  context.subscriptions.push(copyModelfields);
   context.subscriptions.push(pasteModelSerializer);
   context.subscriptions.push(pasteModelSerializerECU);
   context.subscriptions.push(pasteModelSerializerAll);
@@ -261,6 +346,8 @@ function activate(context) {
   context.subscriptions.push(pasteModelSimpleRouter);
   context.subscriptions.push(pasteModelSimpleRouterReg);
   context.subscriptions.push(pasteModelAllfields);
+  context.subscriptions.push(pasteModelselectedfields);
+  context.subscriptions.push(pasteModelselectedfieldsdict);
 }
 exports.activate = activate;
 exports.parseModelString = parseModelString;

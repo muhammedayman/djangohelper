@@ -21,7 +21,9 @@
     "onCommand:djangohelperext.pasteModelSerializerAll",
     "onCommand:djangohelperext.pasteModelViewset",
     "onCommand:djangohelperext.pasteModelSimpleRouter",
-    "onCommand:djangohelperext.pasteModelSimpleRouterReg"
+    "onCommand:djangohelperext.pasteModelSimpleRouterReg",
+    "onCommand:djangohelperext.copyModelfields",
+    "onCommand:djangohelperext.pasteModelselectedfields"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -57,6 +59,18 @@
       {
         "command": "djangohelperext.pasteModelAllfields",
         "title": "paste all fields"
+      },
+      {
+        "command": "djangohelperext.copyModelfields",
+        "title": "copy fields"
+      },
+      {
+        "command": "djangohelperext.pasteModelselectedfields",
+        "title": "paste selected fields"
+      },
+      {
+        "command": "djangohelperext.pasteModelselectedfieldsdict",
+        "title": "paste selected dict fields"
       }
     ],
     "menus": {
@@ -65,10 +79,10 @@
           "command": "djangohelperext.copyModelName",
           "group": "9_cutcopypaste"
         },
-     {
+        {
         "submenu": "extnext",
         "group": "9_cutcopypaste"
-      }
+        }
       ],
       "extnext": [
         {
@@ -89,6 +103,11 @@
           "when": "explorerViewletVisible",
           "submenu": "extnextnextviews",
           "group": "9_cutcopypaste"
+        },
+        {
+          "when": "explorerViewletVisible",
+          "submenu": "extnextnextfields",
+          "group": "fields"
         },
         {
           "command": "djangohelperext.pasteModelAllfields",
@@ -148,6 +167,20 @@
           "command": "djangohelperext.pasteModelViewset",
           "group": "navigation"
         }
+      ],
+      "extnextnextfields":[
+        {
+          "command": "djangohelperext.copyModelfields",
+          "group": "fields"
+        },
+        {
+          "command": "djangohelperext.pasteModelselectedfields",
+          "group": "fields"
+        },
+        {
+          "command": "djangohelperext.pasteModelselectedfieldsdict",
+          "group": "fields"
+        }
       ]
   },
   "submenus": [
@@ -166,6 +199,10 @@
     {
       "id": "extnextnextviews",
       "label": "views"
+    },
+    {
+      "id": "extnextnextfields",
+      "label": "fields"
     }
   ]
   },
